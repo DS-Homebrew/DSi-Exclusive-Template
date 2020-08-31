@@ -32,13 +32,17 @@ void dsiOnly(void) {
 	vramSetBankD(VRAM_D_LCD);
 
 	// Display DSi Only screen
-	int bg3 = bgInit(3, BgType_Bmp16, BgSize_B16_256x256, 1, 0);
-	bgSetScroll(bg3, 0, 0);
+	int bg3 = bgInit(3, BgType_Bmp8, BgSize_B8_256x256, 1, 0);
 	decompress(dsiOnly_topBitmap, bgGetGfxPtr(bg3), LZ77Vram);
+	for (int i = 0; i < 16; i++) {
+		BG_PALETTE[i] = dsiOnly_topPal[i];
+	}
 
-	int bg3sub = bgInitSub(3, BgType_Bmp16, BgSize_B16_256x256, 1, 0);
-	bgSetScroll(bg3sub, 0, 0);
+	int bg3sub = bgInitSub(3, BgType_Bmp8, BgSize_B8_256x256, 1, 0);
 	decompress(dsiOnly_botBitmap, bgGetGfxPtr(bg3sub), LZ77Vram);
+	for (int i = 0; i < 16; i++) {
+		BG_PALETTE_SUB[i] = dsiOnly_botPal[i];
+	}
 
 	dsiOnly_setBrightness(0, 0);
 	dsiOnly_setBrightness(1, 0);
